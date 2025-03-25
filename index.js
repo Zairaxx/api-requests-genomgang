@@ -1,4 +1,6 @@
 function prepareDough() {
+    //Ett promise som resolve efter 2 sekunder.
+    //Returnerar sen strängen "Dough is ready"
     return new Promise((resolve) => {
         console.log("Preparing dough...");
         setTimeout(() => {
@@ -16,13 +18,14 @@ function addToppings() {
     });
 }
 
-
 function bakePizza() {
     return new Promise((resolve,reject) => {
         console.log("Baking pizza...");
         setTimeout(() => {
-
             resolve("Pizza is ready!");
+            //Testa kommentera bort resolve()-functionen ovan. Använd istället reject()-funktionen nedan.
+            // Vad händer då när du kör eatPizza() ?
+            //reject("Dinner is ruined :(")
         }, 3000);
     });
 }
@@ -58,8 +61,8 @@ function servePizza() {
 //     });
 
 
-async function checkPizza(){
-
+async function eatPizza(){
+    //Async/await istället för .then();
     try {
         let dough = await prepareDough();
         console.log(dough)
@@ -74,8 +77,12 @@ async function checkPizza(){
     }
 }
 
-// checkPizza()
+//Kör funktionen nedan för att se promise-kedjan köras med async/await
+// eatPizza()
 
-setInterval( () => {
-    console.log("Hej");
-}, 3000)
+
+// Kommentera fram blocket nedan för att sätta igång timer
+
+// setInterval( () => {
+//     console.log("Hej");
+// }, 3000)
