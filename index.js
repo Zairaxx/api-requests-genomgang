@@ -1,69 +1,81 @@
-//POST
-
-const postData = async (URL, data) => {
-    let response = await axios.post(URL, data) 
-    console.log(response);
+function prepareDough() {
+    return new Promise((resolve) => {
+        console.log("Preparing dough...");
+        setTimeout(() => {
+            resolve("Dough is ready");
+        }, 2000);
+    });
 }
 
-document.querySelector("#addUser").addEventListener("click",
-    () => {
-        let newUser = {
-            name: "Kalle Anka",
-            age:55
-        };
-
-        postData("http://localhost:5001/users", newUser)
-    })
-//DELETE
-
-const deleteUser = async (url) => {
-    await axios.delete(url)
+function addToppings() {
+    return new Promise((resolve) => {
+        console.log("Adding toppings...");
+        setTimeout(() => {
+            resolve("Toppings added");
+        }, 2500);
+    });
 }
 
-//PUT
 
-const updateUser = async (url,data) => {
-    let response = await axios.put(url, data);
-    console.log(response);
+function bakePizza() {
+    return new Promise((resolve,reject) => {
+        console.log("Baking pizza...");
+        setTimeout(() => {
+
+            resolve("Pizza is ready!");
+        }, 3000);
+    });
 }
 
-//render function
-const getData = async (URL) => {
-    let response = await axios.get(URL);
-    console.log(response.data);
-    return response.data
+function servePizza() {
+    return new Promise((resolve) => {
+        console.log("Serving pizza...");
+        setTimeout(() => {
+            resolve("Pizza is ready to eat!");
+        }, 1000);
+    });
 }
 
-let renderPage = async () => {
-    let users = await getData("http://localhost:5001/users");
-    users.forEach(user => {
-        let div = document.createElement("div");
-        div.innerHTML = `<h2>Name: ${user.name} - Age: ${user.age} id: ${user.id}</h2>`
-        //DELETE
-        let deleteBtn = document.createElement("button");
-        deleteBtn.addEventListener("click", () => {deleteUser("http://localhost:5001/users/" + user.id) })
-        deleteBtn.textContent = "Delete user"
-        div.append(deleteBtn);
-        document.body.append(div);
+// Chaining the promises
+// prepareDough()
+//     .then((message) => {
+//         console.log(message);
+//         return addToppings();
+//     })
+//     .then((message) => {
+//         console.log(message);
+//         return bakePizza();
+//     })
+//     .then((message) => {
+//         console.log(message);
+//         return servePizza();
+//     })
+//     .then((message) => {
+//         console.log(message);
+//     })
+//     .catch((error) => {
+//         console.error("Something went wrong:", error);
+//     });
 
-        //UPDATE
-        let updateBtn = document.createElement("button");
-        
-        let updatedUser = {
-            name:"Kajsa Anka",
-            age:70
-        }
 
-        updateBtn.addEventListener("click", () => {updateUser(`http://localhost:5001/users/${user.id}`, updatedUser) })
-        updateBtn.textContent = "Update user"
-        div.append(updateBtn);
-        document.body.append(div);
-    })
-    
+async function checkPizza(){
+
+    try {
+        let dough = await prepareDough();
+        console.log(dough)
+        let pizza = await addToppings();
+        console.log(pizza)
+        let finishedPizza = await bakePizza();
+        console.log(finishedPizza)
+        let foodTime = await servePizza();
+        console.log(foodTime)
+    } catch(err) {
+        console.error("Dinner is ruined! ", err)
+    }
 }
 
-renderPage();
+// checkPizza()
 
-//Http request
-
-//GET
+setInterval( () => {
+    console.log("Hej");
+}, 3000)
